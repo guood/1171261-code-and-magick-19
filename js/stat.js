@@ -43,8 +43,8 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Ура вы победили!', Cloud.LEFT + Title.LEFT, Cloud.TOP + Title.TOP);
   ctx.fillText('Список результатов:', Cloud.LEFT + Title.LEFT, Cloud.TOP + Title.TOP + 17);
 
-  var columnsY = Cloud.TOP + Cloud.HEIGHT - Hist.BOTTOM;
-  var namesY = Cloud.TOP + Cloud.HEIGHT - Names.BOTTOM;
+  var columnsTop = Cloud.TOP + Cloud.HEIGHT - Hist.BOTTOM;
+  var namesTop = Cloud.TOP + Cloud.HEIGHT - Names.BOTTOM;
 
   ctx.textBaseline = 'alphabetic';
   var maxTime = Math.max.apply(null, times);
@@ -52,25 +52,25 @@ window.renderStatistics = function (ctx, names, times) {
     var name = names[i];
     var time = Math.round(times[i]);
 
-    var columnX = Cloud.LEFT + Hist.LEFT + i * (Hist.COLUMN_WIDTH + Hist.SPACE_BETWEEN_COL);
+    var columnLeft = Cloud.LEFT + Hist.LEFT + i * (Hist.COLUMN_WIDTH + Hist.SPACE_BETWEEN_COL);
 
     ctx.fillStyle = Names.COLOR;
-    ctx.fillText(name, columnX, namesY);
+    ctx.fillText(name, columnLeft, namesTop);
 
     ctx.fillStyle = (name === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.floor(Math.random() * 101) + '%, 50%)';
 
     var columnHeight = Math.round(Hist.HEIGHT * times[i] / maxTime);
-    ctx.fillRect(columnX, columnsY, Hist.COLUMN_WIDTH, -columnHeight);
+    ctx.fillRect(columnLeft, columnsTop, Hist.COLUMN_WIDTH, -columnHeight);
 
     ctx.fillStyle = Times.COLOR;
-    ctx.fillText(time, columnX, columnsY - columnHeight - Times.BOTTOM);
+    ctx.fillText(time, columnLeft, columnsTop - columnHeight - Times.BOTTOM);
   }
 };
 
 function fillShadowedRect(ctx, left, top, width, height, backgroundColor, shadowColor) {
-  ctx.fillStyle = shadowColor || 'rgba(0, 0, 0, 0.7)';
+  ctx.fillStyle = shadowColor;
   ctx.fillRect(left + 10, top + 10, width, height);
 
-  ctx.fillStyle = backgroundColor || 'white';
+  ctx.fillStyle = backgroundColor;
   ctx.fillRect(left, top, width, height);
 }
