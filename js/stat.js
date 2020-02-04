@@ -47,9 +47,9 @@ window.renderStatistics = function (ctx, names, times) {
   var namesTop = Cloud.TOP + Cloud.HEIGHT - Names.BOTTOM;
 
   ctx.textBaseline = 'alphabetic';
+
   var maxTime = Math.max.apply(null, times);
-  for (var i = 0; i < names.length; i++) {
-    var name = names[i];
+  names.forEach(function (name, i) {
     var time = Math.round(times[i]);
 
     var columnLeft = Cloud.LEFT + Hist.LEFT + i * (Hist.COLUMN_WIDTH + Hist.SPACE_BETWEEN_COL);
@@ -57,15 +57,18 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillStyle = Names.COLOR;
     ctx.fillText(name, columnLeft, namesTop);
 
-    ctx.fillStyle = (name === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.floor(Math.random() * 101) + '%, 50%)';
-
+    ctx.fillStyle = getHistColumnColor(name);
     var columnHeight = Math.round(Hist.HEIGHT * times[i] / maxTime);
     ctx.fillRect(columnLeft, columnsTop, Hist.COLUMN_WIDTH, -columnHeight);
 
     ctx.fillStyle = Times.COLOR;
     ctx.fillText(time, columnLeft, columnsTop - columnHeight - Times.BOTTOM);
-  }
+  });
 };
+
+function getHistColumnColor(name) {
+  return (name === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.floor(Math.random() * 101) + '%, 50%)';
+}
 
 function fillShadowedRect(ctx, left, top, width, height, backgroundColor, shadowColor) {
   ctx.fillStyle = shadowColor;
