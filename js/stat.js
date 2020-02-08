@@ -34,6 +34,18 @@ var Hist = {
   SPACE_BETWEEN_COL: 50
 };
 
+function getHistColumnColor(name) {
+  return (name === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.floor(Math.random() * 101) + '%, 50%)';
+}
+
+function fillShadowedRect(ctx, left, top, width, height, backgroundColor, shadowColor) {
+  ctx.fillStyle = shadowColor;
+  ctx.fillRect(left + 10, top + 10, width, height);
+
+  ctx.fillStyle = backgroundColor;
+  ctx.fillRect(left, top, width, height);
+}
+
 window.renderStatistics = function (ctx, names, times) {
   fillShadowedRect(ctx, Cloud.LEFT, Cloud.TOP, Cloud.WIDTH, Cloud.HEIGHT, Cloud.COLOR, Cloud.SHADOW_COLOR);
 
@@ -65,15 +77,3 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText(time, columnLeft, columnsTop - columnHeight - Times.BOTTOM);
   });
 };
-
-function getHistColumnColor(name) {
-  return (name === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.floor(Math.random() * 101) + '%, 50%)';
-}
-
-function fillShadowedRect(ctx, left, top, width, height, backgroundColor, shadowColor) {
-  ctx.fillStyle = shadowColor;
-  ctx.fillRect(left + 10, top + 10, width, height);
-
-  ctx.fillStyle = backgroundColor;
-  ctx.fillRect(left, top, width, height);
-}
