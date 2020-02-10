@@ -39,23 +39,26 @@ var EYES_COLORS = [
   'green'
 ];
 
-var getRandomArrayItem = function (array) {
+var SETUP_DIALOG = document.querySelector('.setup');
+var SIMILAR_WIZARD_TEMPLATE = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+
+function getRandomItem(array) {
   return array[Math.floor(Math.random() * array.length)];
-};
+}
 
-var getWizardName = function () {
-  return getRandomArrayItem(FIRST_NAMES) + ' ' + getRandomArrayItem(LAST_NAMES);
-};
+function getWizardName() {
+  return getRandomItem(FIRST_NAMES) + ' ' + getRandomItem(LAST_NAMES);
+}
 
-var getCoatColor = function () {
-  return getRandomArrayItem(COAT_COLORS);
-};
+function getCoatColor() {
+  return getRandomItem(COAT_COLORS);
+}
 
-var getEysColor = function () {
-  return getRandomArrayItem(EYES_COLORS);
-};
+function getEysColor() {
+  return getRandomItem(EYES_COLORS);
+}
 
-var createSimilarWizards = function () {
+function mockData() {
   var wizards = [];
   for (var i = 0; i < 4; i++) {
     wizards[i] = {
@@ -65,25 +68,26 @@ var createSimilarWizards = function () {
     };
   }
   return wizards;
-};
+}
 
-var renderWizard = function (wizard, htmlTemplate) {
-  var wizardElement = htmlTemplate.cloneNode(true);
+function renderSimilarWizard(wizard) {
+  var wizardElement = SIMILAR_WIZARD_TEMPLATE.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
   return wizardElement;
-};
+}
 
-var wizards = createSimilarWizards();
+(function renderSimilarWizards() {
+  var wizards = mockData();
 
-var simularWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-var fragment = document.createDocumentFragment();
-wizards.forEach(function (wizard) {
-  fragment.appendChild(renderWizard(wizard, simularWizardTemplate));
-});
+  var fragment = document.createDocumentFragment();
 
-var dialog = document.querySelector('.setup');
-dialog.querySelector('.setup-similar-list').appendChild(fragment);
-dialog.classList.remove('hidden');
-dialog.querySelector('.setup-similar').classList.remove('hidden');
+  wizards.forEach(function (wizard) {
+    fragment.appendChild(renderSimilarWizard(wizard));
+  });
+
+  SETUP_DIALOG.querySelector('.setup-similar-list').appendChild(fragment);
+  SETUP_DIALOG.classList.remove('hidden');
+  SETUP_DIALOG.querySelector('.setup-similar').classList.remove('hidden');
+}());
